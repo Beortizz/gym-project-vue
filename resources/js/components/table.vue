@@ -21,17 +21,7 @@
               </tr>
             </thead>
             <tbody>
-                <tr v-for="row in rows" :key="row.id">
-                    <td v-for="(value, key) in Object.values(row).slice(0,-1)" :key="value">{{value}}</td>
-                    <td v-for="action in row.actions" :key="action">
-                      <span v-if="action.includes('Edit')">
-                        <button class="btn btn-primary" @click="showEditModal(row.id)">Edit</button>
-                      </span>
-                      <span v-else-if="action.includes('Delete')">
-                        <button class="btn btn-danger" @click="showDeleteModal(row.id)">Delete</button>
-                      </span>
-                    </td>
-                </tr>
+                <slot></slot>
             </tbody>
             <tfoot>
   
@@ -57,34 +47,17 @@ import { stringifyQuery } from 'vue-router';
             type: Array,
             required: false
         },
-        rows: {
-            type: Array,
-            required: false
-        },
         showCreateModal: {
-            type: Function,
+            type: Boolean,
             required: false
         },
-        deleteRow: {
-            type: Function,
-            required: false
-        },
-        showEditModal: {
-            type: Function,
-            required: false
-        },
+   
+
     },
     methods: {
         showCreateModal() {
             this.$emit("showCreateModal");
         },
-        showDeleteModal(id) {
-          this.$emit("showDeleteModal", id);
-        },
-        showEditModal(id) {
-          this.$emit("showEditModal", id);
-        },
-    
     },
     mounted() {
       console.log("Component mounted.");

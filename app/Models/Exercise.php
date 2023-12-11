@@ -6,20 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\TrainingSheet;
 
-class Student extends Model
+class Exercise extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'email',
-        'age',
-        'weight',
-        'height',
+        'muscleGroup',
     ];
 
-    public function trainingSheet()
+    public function trainingSheets()
     {
-        return $this->hasOne(TrainingSheet::class);
+        return $this->belongsToMany(TrainingSheet::class, 'exercise_training_sheets')->withPivot('repetitions', 'series');
     }
 }

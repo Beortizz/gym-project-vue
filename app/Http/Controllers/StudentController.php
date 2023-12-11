@@ -11,8 +11,12 @@ class StudentController extends Controller
   
     public function index()
     {
-        $students = Student::all();
-
+        $students = Student::with(['trainingSheet' => function ($query) {
+            $query->with(['exercises' => function ($query) {
+                $query->withPivot(['series', 'repetitions']);
+            }]);
+        }])->get();
+        
         return response()->json($students);
     }
 

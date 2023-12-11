@@ -14,4 +14,6 @@ import PortalVue from 'portal-vue';
 import app from './components/app.vue';
 import router from './router/index.js';
 
+
 createApp(app).use(SweetAlert2).use(PortalVue).use(router).mount('#app');
+

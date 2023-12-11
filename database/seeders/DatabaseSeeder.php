@@ -5,6 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Student;
+use App\Models\Exercise;
+use App\Models\TrainingSheet;
+use App\Models\ExerciseTrainingSheet;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +22,10 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        Student::factory()->count(10)->create();
+        Student::factory()->count(5)->create();
+        Exercise::factory()->count(5)->create();
+        TrainingSheet::factory()->count(5)->create();
+
+
     }
 }
