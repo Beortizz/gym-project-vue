@@ -20,17 +20,10 @@ class TrainingSheetController extends Controller
 
     public function store(StoreTrainingSheetRequest $request)
     {
-        $trainingSheet = TrainingSheet::create($request->all());
-        $trainingSheet->exercises()->attatch($request->exercises);
-        foreach ($request->exercises as $exerciseId => $exerciseData) {
-            $trainingSheet->exercises()->updateExistingPivot($exerciseId, [
-                'repetitions' => $exerciseData['repetitions'],
-                'series' => $exerciseData['series']
-            ]);
-        }
-        return response()->json([
-            'message' => 'Ficha de treino criada com sucesso!',
-        ]);
+        $trainingSheet = TrainingSheet::create(
+            ['student_id' => $request->studentId]
+        );
+        return response()->json($trainingSheet);
     }
 
     public function update(UpdateTrainingSheetRequest $request, TrainingSheet $trainingSheet)
@@ -65,12 +58,6 @@ class TrainingSheetController extends Controller
 
     public function addExercise(Request $request, $trainingSheetId, $exerciseId)
     {
-        if($trainingSheetId == true)
-        {
-           $trainingSheetId = TrainingSheet::create(
-                ['student_id' => $request->studentId]
-              )->id;
-        }
         $trainingSheet = TrainingSheet::find($trainingSheetId);
         $trainingSheet->exercises()->attach($exerciseId, [
             'series' => request()->input('series'),

@@ -20,6 +20,7 @@ use App\Http\Controllers\TrainingSheetController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/training_sheets', [TrainingSheetController::class, 'store']);
 Route::post('/training_sheets/{trainingSheetId}/exercises/{exerciseId}', [TrainingSheetController::class, 'addExercise']);
 Route::delete('/training_sheets/{trainingSheetId}/exercises/{exerciseId}', [TrainingSheetController::class, 'removeExercise']);
 Route::apiResource('/students', StudentController::class);

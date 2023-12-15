@@ -1,30 +1,29 @@
 <template>
-    <Table title="Lista de Exercícios" :columns="columns" @showCreateModal="showCreateModal">
+    <Table title="Lista de Exercícios" :columns="columns" @showCreateModal="showExerciseModal">
         <tr v-for="row in rows" :key="row.id">
             <td v-for="(value, key) in Object.values(row).slice(0,-1)" :key="value">{{value}}</td>
             <td v-for="action in row.actions" :key="action">
-              <span v-if="action.includes('Edit Row')">
-                <button class="btn btn-primary" @click="showEditModal(row.id)">Edit</button>
+              <span v-if="action.includes('Edit')">
+                <button class="btn btn-primary" @click="showExerciseModal(row.id)">Edit</button>
               </span>
-              <span v-else-if="action.includes('Delete Row')">
-                <button class="btn btn-danger" @click="showDeleteModal(row.id)">Delete</button>
+              <span v-else-if="action.includes('Delete')">
+                <button class="btn btn-danger" @click="showDeleteExerciseModal(row.id)">Delete</button>
               </span>
             </td>
         </tr>
     </Table>
-    <ModalForm title="Adicionar Exercício" @submit="createExercise" :isModalOpen="isCreateModalOpen" @closeModal="closeModal">
-        <label for="name">Nome</label>
+    <ModalForm title="Exercício" @submit="handleSubmitExercise(this.isExerciseModalOpen)" @closeModal="closeModal" :isModalOpen="isExerciseModalOpen || typeof isExerciseModalOpen === 'true'">
+        <template v-slot:body>
+            <label for="name">Nome</label>
         <input type="text" class="form-control" id="name" v-model="name" required>
         <label for="muscleGroup">Grupo Muscular</label>
         <input type="text" class="form-control" id="muscleGroup" v-model="muscleGroup" required>
+        </template>
+        <template v-slot:footer>
+            <button type="button" class="btn btn-secondary" @click="closeModal">Fechar</button>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </template>
     </ModalForm>
-    <ModalForm :id="currentEditId" title="Editar Exercício" @submit="editExercise" :isModalOpen="isEditModalOpen" @closeModal="closeModal">
-        <label for="name">Nome</label>
-        <input type="text" class="form-control" id="name" v-model="name" required>
-        <label for="muscleGroup">Grupo Muscular</label>
-        <input type="text" class="form-control" id="muscleGroup" v-model="muscleGroup" required>
-    </ModalForm>
-
 </template>
 
 <script>
@@ -43,9 +42,7 @@ export default {
     return {
         columns: ["ID", "Nome", "Grupo Muscular"],
         rows: [],
-        isCreateModalOpen: false,
-        isEditModalOpen: false,
-        currentEditId: 0,
+        isExerciseModalOpen: false,
     }
   },
   mounted() {
@@ -72,6 +69,14 @@ export default {
             .catch((error) => {
                 console.log(error);
             });
+    },
+
+    handleSubmitExercise(id) {
+        if (typeof id === "number") {
+            this.editExercise(id);
+        } else{
+            this.createExercise();
+        }
     },
 
     createExercise() {
@@ -129,25 +134,24 @@ export default {
             });
     },
     closeModal() {
-        this.isCreateModalOpen = false;
-        this.isEditModalOpen = false;
+        this.isExerciseModalOpen = false;
     },
 
-    showCreateModal() {
-        this.name = "";
-        this.muscleGroup = "";
-        this.isCreateModalOpen = true;
+    showExerciseModal(id) {
+        if (typeof id === "number") {
+            const exercise = this.rows.find((exercise) => exercise.id === id);
+            this.name = exercise.name;
+            this.muscleGroup = exercise.muscleGroup;
+            this.isExerciseModalOpen = id;
+        } else {
+            this.name = "";
+            this.muscleGroup = "";
+            this.isExerciseModalOpen = true;
+        }
+    
     },
 
-    showEditModal(id) {
-        const exercise = this.rows.find(exercise => exercise.id === id);
-        this.name = exercise.name;
-        this.muscleGroup = exercise.muscleGroup;
-        this.currentEditId = id;
-        this.isEditModalOpen = true;
-    },
-
-    showDeleteModal(id) {
+    showDeleteExerciseModal(id) {
         this.$swal(
             {
                 title: 'Você tem certeza?',
@@ -159,7 +163,7 @@ export default {
             }
         ).then((result) => {
             if (result.isConfirmed) {
-                this.deleteStudent(id);
+                this.deleteExercise(id);
             }
         })
     },

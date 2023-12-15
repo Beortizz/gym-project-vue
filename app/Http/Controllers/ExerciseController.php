@@ -46,8 +46,10 @@ class ExerciseController extends Controller
      */
     public function destroy(Exercise $exercise)
     {
+        if($exercise->trainingSheets()->exists()) {
+            $exercise->trainingSheets()->detach();
+        }
         $exercise->delete();
-
         return response()->json([
             'message' => 'Exercício deletado com sucesso!',
         ]); 

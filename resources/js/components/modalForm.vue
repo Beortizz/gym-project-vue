@@ -12,11 +12,10 @@
                         </div>
                         <form @submit.prevent="submit">
                             <div class="modal-body">
-                                <slot></slot>
+                                <slot name="body"></slot>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" @click="closeModal" >Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Salvar</button>
+                                <slot name="footer"> </slot>
                             </div>
                         </form>
                     </div>
@@ -40,7 +39,7 @@
             },
             submit: {
                 type: Function,
-                required: true
+                required: false
             },
             isModalOpen: {
                 type: Boolean,
