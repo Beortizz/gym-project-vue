@@ -4,27 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\TrainingSheet;
 
-class Student extends Model
+class Teacher extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'email',
-        'age',
-        'weight',
-        'height',
+        'user_id',
     ];
-
-    public function trainingSheet()
-    {
-        return $this->hasOne(TrainingSheet::class);
-    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
 }

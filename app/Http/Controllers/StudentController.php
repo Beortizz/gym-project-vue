@@ -21,7 +21,7 @@ class StudentController extends Controller
     }
 
     public function store(StoreStudentRequest $request)
-    {
+    { 
         Student::create($request->all());
         return response()->json([
             'message' => 'Estudante criado com sucesso!',

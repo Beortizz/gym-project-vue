@@ -1,7 +1,5 @@
-<template>
-    <PageStructure>
-        <router-view></router-view>
-    </PageStructure>
+<template>   
+    <router-view></router-view>
     <portal-target name="modals" multiple></portal-target>
 </template>
 

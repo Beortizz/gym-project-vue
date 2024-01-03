@@ -16,4 +16,3 @@ import router from './router/index.js';
 
 
 createApp(app).use(SweetAlert2).use(PortalVue).use(router).mount('#app');
-
