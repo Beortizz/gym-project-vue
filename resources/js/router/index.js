@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import axios from '../axiosConfig'; 
+
 
 import students from "../components/students/students.vue";
 import exercises from "../components/exercises/exercises.vue";

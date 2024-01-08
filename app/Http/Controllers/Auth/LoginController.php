@@ -25,11 +25,13 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            $request->session()->regenerate();
             $token = $user->createToken('token-name')->plainTextToken;
 
             return response()->json([
                 'status' => 'success',
                 'token' => $token,
+                'user' => $user,
             ], 200);
         }else{
             return response()->json([

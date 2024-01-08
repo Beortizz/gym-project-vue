@@ -19,8 +19,7 @@ use App\Http\Controllers\Auth\RegisterController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::post('/register', [RegisterController::class, 'create'])->name('register');
-Route::post('/login', [LoginController::class, 'login'])->name('login');
+
 
 
 

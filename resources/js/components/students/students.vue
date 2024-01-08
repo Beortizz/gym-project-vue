@@ -98,7 +98,7 @@ import ModalForm from "./../modalForm.vue";
 import PageStructure from "./../pageStructure.vue";
 
 
-import axios from "../../axiosConfig";
+import axios from "../../bootstrap.js";
 
 export default {
   components: {

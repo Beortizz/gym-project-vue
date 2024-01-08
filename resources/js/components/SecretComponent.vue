@@ -23,7 +23,7 @@
     </PageStructure>
 </template>
 <script>
-import axios from 'axios';
+import axios from '../bootstrap.js';
 import PageStructure from './pageStructure.vue';
 export default {
 
@@ -47,6 +47,7 @@ export default {
                 password: this.formData.password
                 }
                 ).then(response => {
+                    window.localStorage.setItem('token', response.data.token);
                     this.$router.push({ name: 'studentIndex' });
                 }).catch(error => {
                     this.$swal({
