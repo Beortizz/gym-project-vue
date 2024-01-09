@@ -24,5 +24,3 @@ Route::get('/{pathMatch}', function () {
 })->where('pathMatch', '.*');
 
 
-Route::post('/register', [RegisterController::class, 'create'])->name('register');
-Route::post('/login', [LoginController::class, 'login'])->name('login');

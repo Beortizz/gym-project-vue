@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -25,37 +26,44 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $request->session()->regenerate();
-            $token = $user->createToken('token-name')->plainTextToken;
-
+            $token = $user->createToken('token')->plainTextToken;
             return response()->json([
                 'status' => 'success',
                 'token' => $token,
-                'user' => $user,
+
             ], 200);
-        }else{
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Invalid credentials',
-            ], 401);}
+            ], 401);
+        }
     }
 
-    use AuthenticatesUsers;
+    public function logout(Request $request)
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $user->tokens()->delete();
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Token deleted successfully',
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not authenticated',
+            ], 401);
+        }
+    }
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('web');
     }
+
+
 }

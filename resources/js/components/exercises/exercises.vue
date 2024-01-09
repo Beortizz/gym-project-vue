@@ -57,7 +57,7 @@ export default {
     methods: {
         fetchExercises() {
             axios
-                .get("/api/exercises")
+                .get("/exercises")
                 .then((response) => {
                     this.rows = response.data.map((exercise) => {
                         return {
@@ -86,7 +86,7 @@ export default {
 
         createExercise() {
             axios
-                .post("/api/exercises", {
+                .post("/exercises", {
                     name: this.name,
                     muscleGroup: this.muscleGroup,
                 })
@@ -106,7 +106,7 @@ export default {
 
         editExercise(id) {
             axios
-                .put(`/api/exercises/${id}`, {
+                .put(`/exercises/${id}`, {
                     name: this.name,
                     muscleGroup: this.muscleGroup,
                 })
@@ -125,7 +125,7 @@ export default {
         },
         deleteExercise(id) {
             axios
-                .delete(`/api/exercises/${id}`)
+                .delete(`/exercises/${id}`)
                 .then((response) => {
                     this.fetchExercises();
                     this.$swal.fire(

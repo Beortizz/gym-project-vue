@@ -74,9 +74,6 @@ class RegisterController extends Controller
             'password' => Hash::make($request['password']),  
         ]);
 
-        $user->teacher()->create([
-            'user_id' => $user->id,
-        ]);
 
         return response()->json([
             'message' => 'Successfully registered',

@@ -16,8 +16,12 @@ class StudentController extends Controller
                 $query->withPivot(['series', 'repetitions']);
             }]);
         }])->get();
+
+  
         
-        return response()->json($students);
+        return response()->json([
+            'students' => $students,
+        ]);
     }
 
     public function store(StoreStudentRequest $request)

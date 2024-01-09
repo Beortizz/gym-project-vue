@@ -125,7 +125,7 @@ export default {
       return axios
         .get("/students")
         .then((response) => {
-          this.rows = response.data.map((student) => {
+          this.rows = response.data.students.map((student) => {
 
             return {
               id: student.id,
@@ -209,7 +209,7 @@ export default {
 
     deleteStudent(id) {
       axios
-        .delete(`/api/students/${id}`)
+        .delete(`/students/${id}`)
         .then((response) => {
           this.fetchStudents();
         })
@@ -295,7 +295,7 @@ export default {
     },
     fetchExercises() {
       return axios
-        .get("/api/exercises")
+        .get("/exercises")
         .then((response) => {
           this.allExercises = response.data.map((exercise) => {
             return {
@@ -310,7 +310,7 @@ export default {
 
     createTrainingSheet() {
       return axios
-        .post(`/api/training_sheets`, {
+        .post(`/training_sheets`, {
           studentId: this.studentId,
         })
         .then((response) => response.data.id)
@@ -324,7 +324,7 @@ export default {
           trainingSheetId = id;
 
           axios
-            .post(`/api/training_sheets/${trainingSheetId}/exercises/${this.exerciseId}`, {
+            .post(`/training_sheets/${trainingSheetId}/exercises/${this.exerciseId}`, {
               exercise_id: this.exercise,
               series: this.series,
               repetitions: this.repetitions,
@@ -341,7 +341,7 @@ export default {
         });
       } else {
         axios
-          .post(`/api/training_sheets/${trainingSheetId}/exercises/${this.exerciseId}`, {
+          .post(`/training_sheets/${trainingSheetId}/exercises/${this.exerciseId}`, {
             exercise_id: this.exercise,
             series: this.series,
             repetitions: this.repetitions,
@@ -362,7 +362,7 @@ export default {
     removeExercise(id) {
       const trainingSheetId = this.isSheetModalOpen;
       axios
-        .delete(`/api/training_sheets/${this.isSheetModalOpen}/exercises/${id}`)
+        .delete(`/training_sheets/${this.isSheetModalOpen}/exercises/${id}`)
         .then((response) => this.fetchStudents())
         .then((response) => this.closeModal())
         .then(() => {
