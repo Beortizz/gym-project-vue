@@ -39,8 +39,9 @@
         <button type="submit" class="btn btn-primary">Salvar</button>
       </template>
     </ModalForm>
-    <ModalForm :id="isSheetModalOpen" title=" Ficha de Treinamento "
-      :isModalOpen="isSheetModalOpen || typeof isSheetModalOpen === 'number'" @closeModal="closeModal">
+    <ModalForm ref="modalForm" :id="isSheetModalOpen" title=" Ficha de Treinamento "
+      :isModalOpen="isSheetModalOpen || typeof isSheetModalOpen === 'number'" @closeModal="closeModal"
+      :generatePDF="generatePDF">
       <template v-slot:body>
         <table class="table dataTableSimple table-striped">
           <thead>
@@ -70,7 +71,10 @@
         </table>
       </template>
       <template v-slot:footer>
-        <button type="button" class="btn btn-secondary" @click="closeModal">Fechar</button>
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" @click="closeModal">Fechar</button>
+          <button class="btn btn-primary" @click="generatePDF">Gerar PDF</button>
+        </div>
       </template>
     </ModalForm>
     <ModalForm title="Adicionar Exercício " :isModalOpen="isExerciseModalOpen" @submit="addExercise"
@@ -96,7 +100,7 @@
 import Table from "./../table.vue";
 import ModalForm from "./../modalForm.vue";
 import PageStructure from "./../pageStructure.vue";
-
+import html2pdf from "html2pdf.js";
 
 import axios from "../../bootstrap.js";
 
@@ -370,6 +374,23 @@ export default {
         })
         .catch(console.error);
     },
+
+    generatePDF() {
+      const modalToPdf = document.getElementById(this.isSheetModalOpen);
+      const modalToPdfClone = modalToPdf.cloneNode(true);
+      const elementsToRemove = modalToPdfClone.querySelectorAll('.btn'); 
+      elementsToRemove.forEach(element => element.remove()); 
+      const options = {
+        margin: 1,
+        filename: 'ficha_de_treino.pdf',
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().from(modalToPdfClone).set(options).save();
+
+    }
+
+
 
   }
 };
