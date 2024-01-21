@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
@@ -45,7 +42,7 @@ class LoginController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
             $user->tokens()->delete();
-            Auth::logout();
+            Auth::guard('web')->logout();   
             $request->session()->invalidate();
             $request->session()->regenerateToken();
             return response()->json([
@@ -59,11 +56,5 @@ class LoginController extends Controller
             ], 401);
         }
     }
-
-    public function __construct()
-    {
-        $this->middleware('web');
-    }
-
 
 }

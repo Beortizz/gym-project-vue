@@ -12,7 +12,7 @@ window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';    
 window.axios.defaults.withCredentials = true;
 window.axios.defaults.withXSRFToken = true;
-window.axios.defaults.baseURL = "http://10.147.20.100:8083/api";
+window.axios.defaults.baseURL = "http://127.0.0.1:8000/api";
 axios.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');

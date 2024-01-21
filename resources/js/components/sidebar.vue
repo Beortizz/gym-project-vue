@@ -22,14 +22,6 @@
                     </a>
                 </li>
                 <li>
-                    <a href="/trainingSheets" class="nav-link px-0 align-middle ">
-                        <span class="material-symbols-outlined">
-                            description
-                        </span>
-                        <span class="ms-2 d-none d-sm-inline">Fichas de Treino</span>
-                    </a>
-                </li>
-                <li>
                     <a href="/exercises" class="nav-link px-0 align-middle">
                         <span class="material-symbols-outlined">
                             fitness_center
