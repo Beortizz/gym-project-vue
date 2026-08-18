@@ -62,6 +62,22 @@ php artisan serve
 
 ```
 
+## Rodando com Docker
+
+Pré-requisito: [Docker](https://www.docker.com/) e Docker Compose.
+
+1. Copie o `.env.example` para `.env`.
+2. Suba os containers:
+```bash
+docker compose up -d
+```
+3. O container `app` roda `composer install`, `key:generate` e `migrate` automaticamente no start. O container `node` sobe o Vite em modo dev com HMR.
+4. Acesse:
+   - App: http://localhost:8003
+   - Vite (dev server): http://localhost:5175
+   - phpMyAdmin: http://localhost:8083
+   - MySQL exposto em: `localhost:3309`
+
 ![Print do projeto](/printGymVueProject.PNG)
 
 

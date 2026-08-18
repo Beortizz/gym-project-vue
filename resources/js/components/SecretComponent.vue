@@ -23,7 +23,7 @@
     </PageStructure>
 </template>
 <script>
-import axios from '../bootstrap.js';
+import axios, { appRootURL } from '../bootstrap.js';
 import PageStructure from './pageStructure.vue';
 export default {
 
@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         handleLogin() {
-            axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.get(`${appRootURL}/sanctum/csrf-cookie`).then(response => {
                 axios.post('/login', {
                 email: this.formData.email,
                 password: this.formData.password
@@ -55,6 +55,12 @@ export default {
                         text: 'Email ou senha incorretos',
                         icon: 'error'
                     });
+                });
+            }).catch(error => {
+                this.$swal({
+                    title: 'Error',
+                    text: 'Não foi possível conectar ao servidor',
+                    icon: 'error'
                 });
             });
         },

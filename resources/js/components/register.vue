@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios, { appRootURL } from '../bootstrap.js';
 import PageStructure from './pageStructure.vue';
 
 export default {
@@ -62,13 +62,13 @@ export default {
                 return;
             }
 
-            axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.get(`${appRootURL}/sanctum/csrf-cookie`).then(response => {
                 axios.post('/register', {
                     name: this.formData.name,
                     email: this.formData.email,
                     password: this.formData.password
                 }).then(response => {
-        
+
                     this.$router.push({ name: 'studentIndex' });
                 }).catch(error => {
                     this.$swal({
@@ -76,6 +76,12 @@ export default {
                         text: 'Falha no registro. Por favor, tente novamente.',
                         icon: 'error'
                     });
+                });
+            }).catch(error => {
+                this.$swal({
+                    title: 'Erro',
+                    text: 'Não foi possível conectar ao servidor',
+                    icon: 'error'
                 });
             });
         }

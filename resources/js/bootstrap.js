@@ -9,10 +9,14 @@ import 'bootstrap';
 import axios from 'axios';
 window.axios = axios;
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';    
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.withCredentials = true;
 window.axios.defaults.withXSRFToken = true;
 window.axios.defaults.baseURL = process.env.VUE_APP_BASE_URL || "http://127.0.0.1:8000/api";
+
+// Sanctum's csrf-cookie route lives at the app root, not under /api,
+// so it needs the /api suffix stripped from the configured base URL.
+export const appRootURL = window.axios.defaults.baseURL.replace(/\/api\/?$/, '');
 axios.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token');
